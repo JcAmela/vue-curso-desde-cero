@@ -1,124 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LearningLayout from '../components/learning/LearningLayout.vue'
-import LessonHome from '../views/LessonHome.vue'
-import LessonIntro from '../views/lessons/LessonIntro.vue'
-import LessonSfc from '../views/lessons/LessonSfc.vue'
-import LessonReactivity from '../views/lessons/LessonReactivity.vue'
-import LessonPlantilla from '../views/lessons/LessonPlantilla.vue'
-import LessonEvents from '../views/lessons/LessonEvents.vue'
-import LessonLists from '../views/lessons/LessonLists.vue'
-import LessonForms from '../views/lessons/LessonForms.vue'
-import LessonComputedWatch from '../views/lessons/LessonComputedWatch.vue'
-import LessonPropsEmit from '../views/lessons/LessonPropsEmit.vue'
-import LessonSlots from '../views/lessons/LessonSlots.vue'
-import LessonRouterNext from '../views/lessons/LessonRouterNext.vue'
-import LessonFetch from '../views/lessons/LessonFetch.vue'
-import LessonPinia from '../views/lessons/LessonPinia.vue'
-import LessonPractice from '../views/lessons/LessonPractice.vue'
-import GuideHub from '../views/GuideHub.vue'
-import { getGuideStepMetaById } from '../data/guide-steps-meta.js'
-import { courseSteps } from '../data/course-index.js'
+import Welcome from '../views/Welcome.vue'
+import StepView from '../views/StepView.vue'
+import End from '../views/End.vue'
 
-const children = [
-  { path: '', name: 'home', component: LessonHome, meta: { title: 'Inicio' } },
-  {
-    path: 'teoria',
-    name: 'theory',
-    component: () => import('../views/TheoryBook.vue'),
-    meta: { title: 'Teoría (libro)' },
-  },
-  { path: 'guia', name: 'guide-hub', component: GuideHub, meta: { title: 'Guía paso a paso' } },
-  {
-    path: 'guia/paso/:stepId',
-    name: 'guide-step',
-    component: () => import('../views/GuideStepView.vue'),
-    meta: { title: 'Guía · paso' },
-  },
-  { path: 'intro', name: 'intro', component: LessonIntro, meta: { title: '¿Qué es Vue?' } },
-  { path: 'sfc', name: 'sfc', component: LessonSfc, meta: { title: 'Archivos .vue' } },
-  { path: 'reactividad', name: 'reactividad', component: LessonReactivity, meta: { title: 'Reactividad' } },
-  { path: 'plantilla', name: 'plantilla', component: LessonPlantilla, meta: { title: 'Plantilla' } },
-  { path: 'eventos', name: 'eventos', component: LessonEvents, meta: { title: 'Eventos' } },
-  { path: 'listas', name: 'listas', component: LessonLists, meta: { title: 'Listas' } },
-  { path: 'formularios', name: 'formularios', component: LessonForms, meta: { title: 'Formularios' } },
-  {
-    path: 'computed-watch',
-    name: 'computed-watch',
-    component: LessonComputedWatch,
-    meta: { title: 'Computed y watch' },
-  },
-  { path: 'props-emit', name: 'props-emit', component: LessonPropsEmit, meta: { title: 'Props y emit' } },
-  { path: 'slots', name: 'slots', component: LessonSlots, meta: { title: 'Slots' } },
-  {
-    path: 'router-y-mas',
-    name: 'router-next',
-    component: LessonRouterNext,
-    meta: { title: 'Router y siguiente paso' },
-  },
-  {
-    path: 'datos-remotos',
-    name: 'fetch-api',
-    component: LessonFetch,
-    meta: { title: 'Datos remotos (fetch)' },
-  },
-  { path: 'pinia', name: 'pinia', component: LessonPinia, meta: { title: 'Estado global (Pinia)' } },
-  {
-    path: 'practica',
-    name: 'practica',
-    component: LessonPractice,
-    meta: { title: 'Ejercicios prácticos' },
-  },
-  {
-    path: 'sesion/:stepId?',
-    name: 'learning-session',
-    component: () => import('../views/LearningSessionView.vue'),
-    meta: { title: 'Camino guiado' },
-  },
-  {
-    path: ':pathMatch(.*)*',
-    name: 'not-found',
-    component: () => import('../views/NotFound.vue'),
-    meta: { title: 'Página no encontrada' },
-  },
+const routes = [
+  { path: '/', name: 'welcome', component: Welcome, meta: { title: 'Vue, paso a paso' } },
+  { path: '/paso/:n', name: 'step', component: StepView, meta: { title: 'Paso' } },
+  { path: '/fin', name: 'end', component: End, meta: { title: 'Hecho' } },
+  { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      component: LearningLayout,
-      children,
-    },
-  ],
-  scrollBehavior(to, _from, savedPosition) {
-    if (savedPosition) return savedPosition
-    if (to.hash) return { el: to.hash, behavior: 'smooth' }
+  routes,
+  scrollBehavior() {
     return { top: 0 }
   },
 })
 
-function learningSessionStepTitle(stepId) {
-  const id = typeof stepId === 'string' ? stepId : ''
-  const s = courseSteps.find((x) => x.id === id)
-  if (!s) return 'Camino guiado'
-  if (s.title) return s.title
-  if (s.type === 'mcq') return 'Test rápido'
-  return s.id
-}
-
 router.afterEach((to) => {
-  const base = 'Vue desde cero'
-  if (to.name === 'guide-step') {
-    const s = getGuideStepMetaById(to.params.stepId)
-    document.title = s ? `${s.title} · Guía · ${base}` : `Guía · ${base}`
-    return
+  const base = 'Vue, paso a paso'
+  if (to.name === 'step' && to.params.n) {
+    document.title = `Paso ${to.params.n} · ${base}`
+  } else if (to.meta?.title && to.meta.title !== base) {
+    document.title = `${to.meta.title} · ${base}`
+  } else {
+    document.title = base
   }
-  if (to.name === 'learning-session') {
-    document.title = `${learningSessionStepTitle(to.params.stepId)} · Camino · ${base}`
-    return
-  }
-  document.title = to.meta?.title ? `${to.meta.title} · ${base}` : base
 })
 
 export default router
