@@ -1,6 +1,6 @@
 <script setup>
 defineProps({
-  label: { type: String, default: 'Pruébalo' },
+  label: { type: String, default: 'Pruébalo tú' },
 })
 </script>
 

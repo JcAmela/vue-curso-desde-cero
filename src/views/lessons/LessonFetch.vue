@@ -34,15 +34,15 @@ async function cargarUsuario() {
     <h2>Flujo típico</h2>
     <ol>
       <li>Guardas en <code class="inline">ref</code> un estado «cargando», otro para «error» y otro para los datos.</li>
-      <li>Antes de la petición: <code class="inline">cargando = true</code>, borras el error anterior.</li>
+      <li>Antes de la petición: <code class="inline">cargando.value = true</code> y limpias el error anterior.</li>
       <li>
         <code class="inline">const respuesta = await fetch('https://…')</code> — compruebas
         <code class="inline">respuesta.ok</code>.
       </li>
-      <li><code class="inline">const datos = await respuesta.json()</code> y los guardas en un ref.</li>
+      <li><code class="inline">const datos = await respuesta.json()</code> y los guardas en un ref (por ejemplo <code class="inline">usuario.value = datos</code>).</li>
       <li>
-        En <code class="inline">finally</code> pones <code class="inline">cargando = false</code> para que siempre se
-        quite el mensaje de carga, falle o no.
+        En <code class="inline">finally</code> pones <code class="inline">cargando.value = false</code> para que siempre
+        se quite el mensaje de carga, falle o no.
       </li>
     </ol>
 

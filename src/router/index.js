@@ -15,9 +15,24 @@ import LessonRouterNext from '../views/lessons/LessonRouterNext.vue'
 import LessonFetch from '../views/lessons/LessonFetch.vue'
 import LessonPinia from '../views/lessons/LessonPinia.vue'
 import LessonPractice from '../views/lessons/LessonPractice.vue'
+import GuideHub from '../views/GuideHub.vue'
+import { getGuideStepMetaById } from '../data/guide-steps-meta.js'
 
 const children = [
   { path: '', name: 'home', component: LessonHome, meta: { title: 'Inicio' } },
+  {
+    path: 'teoria',
+    name: 'theory',
+    component: () => import('../views/TheoryBook.vue'),
+    meta: { title: 'Teoría (libro)' },
+  },
+  { path: 'guia', name: 'guide-hub', component: GuideHub, meta: { title: 'Guía paso a paso' } },
+  {
+    path: 'guia/paso/:stepId',
+    name: 'guide-step',
+    component: () => import('../views/GuideStepView.vue'),
+    meta: { title: 'Guía · paso' },
+  },
   { path: 'intro', name: 'intro', component: LessonIntro, meta: { title: '¿Qué es Vue?' } },
   { path: 'sfc', name: 'sfc', component: LessonSfc, meta: { title: 'Archivos .vue' } },
   { path: 'reactividad', name: 'reactividad', component: LessonReactivity, meta: { title: 'Reactividad' } },
@@ -52,6 +67,12 @@ const children = [
     component: LessonPractice,
     meta: { title: 'Ejercicios prácticos' },
   },
+  {
+    path: ':pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('../views/NotFound.vue'),
+    meta: { title: 'Página no encontrada' },
+  },
 ]
 
 const router = createRouter({
@@ -63,13 +84,20 @@ const router = createRouter({
       children,
     },
   ],
-  scrollBehavior() {
+  scrollBehavior(to, _from, savedPosition) {
+    if (savedPosition) return savedPosition
+    if (to.hash) return { el: to.hash, behavior: 'smooth' }
     return { top: 0 }
   },
 })
 
 router.afterEach((to) => {
   const base = 'Vue desde cero'
+  if (to.name === 'guide-step') {
+    const s = getGuideStepMetaById(to.params.stepId)
+    document.title = s ? `${s.title} · Guía · ${base}` : `Guía · ${base}`
+    return
+  }
   document.title = to.meta?.title ? `${to.meta.title} · ${base}` : base
 })
 

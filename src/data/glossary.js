@@ -1,91 +1,100 @@
 /**
- * Glosario rápido (inicio del curso).
- * `path` opcional: enlace a la lección donde se profundiza.
+ * Glosario rápido (es-ES). Cada entrada enlaza, si aplica, a la lección donde se profundiza.
  */
 export const glossary = [
   {
+    term: 'Teoría (libro)',
+    def: 'Texto ordenado por capítulos: mapa mental de Vue sin obligarte a escribir código en ese momento. Combínala con la guía práctica.',
+    path: 'teoria',
+  },
+  {
+    term: 'Guía paso a paso',
+    def: 'Doce talleres cortos con consola integrada, checklist y una pregunta de comprobación por paso: aprendizaje activo inmediato.',
+    path: 'guia',
+  },
+  {
     term: 'Componente',
-    def: 'Un bloque de interfaz con su HTML, estilo y lógica. Como una “mini-página” que puedes reutilizar.',
+    def: 'Trozo de interfaz con su HTML, estilos y lógica propios. Piensa en una «mini pantalla» que puedes reutilizar donde haga falta.',
     path: 'sfc',
   },
   {
     term: 'Archivo .vue',
-    def: 'Un solo fichero que junta <script>, <template> y <style>. Vite lo convierte en lo que el navegador entiende.',
+    def: 'Fichero que agrupa `<script>`, `<template>` y `<style>`. Herramientas como Vite lo transforman a lo que entiende el navegador.',
     path: 'sfc',
   },
   {
-    term: 'Template',
-    def: 'La parte HTML del componente, con llaves y atributos v- para conectar datos y eventos.',
+    term: 'Template (plantilla)',
+    def: 'La parte HTML del componente, ampliada con llaves `{{ }}` y directivas `v-…` para conectar datos y eventos.',
     path: 'plantilla',
   },
   {
     term: 'ref',
-    def: 'Forma de guardar un número, texto o booleano “con aviso”: cuando cambia, Vue actualiza la pantalla.',
+    def: 'Contenedor reactivo para un valor (número, texto, booleano…). Cuando cambia, Vue actualiza lo que lo muestra en pantalla.',
     path: 'reactividad',
   },
   {
     term: 'Reactividad',
-    def: 'Que la vista se actualice sola cuando cambian los datos, sin buscar tú cada etiqueta en el DOM.',
+    def: 'La vista se mantiene alineada con los datos: no hace falta buscar tú cada etiqueta en el DOM al cambiar una variable.',
     path: 'reactividad',
   },
   {
     term: 'Directiva (v-…)',
-    def: 'Atributo especial en el HTML del template; le da órdenes a Vue (mostrar, repetir, enlazar…).',
+    def: 'Atributo especial en el HTML del template: le indica a Vue qué hacer (mostrar, repetir, enlazar, etc.).',
     path: 'plantilla',
   },
   {
     term: 'Evento (@click, …)',
-    def: 'Igual que addEventListener, pero declarado en el HTML, apuntando a una función de tu script.',
+    def: 'Equivalente a addEventListener, pero declarado en la etiqueta y enlazado a una función de tu script.',
     path: 'eventos',
   },
   {
     term: 'v-for',
-    def: 'Repite un trozo de HTML por cada elemento de una lista (como un for de JavaScript aplicado a etiquetas).',
+    def: 'Repite un trozo de HTML por cada elemento de una lista, como un bucle for aplicado a etiquetas.',
     path: 'listas',
   },
   {
     term: 'v-model',
-    def: 'Enlaza un input o checkbox con una variable en los dos sentidos: escribes y se guarda; cambias el dato y se ve en el input.',
+    def: 'Enlace bidireccional típico en formularios: lo que escribes en el control y el valor en memoria van sincronizados.',
     path: 'formularios',
   },
   {
     term: 'computed',
-    def: 'Valor que se calcula a partir de otros (ej. total = precio × cantidad) y Vue lo refresca cuando debe.',
+    def: 'Valor que se obtiene de otros datos (ej. total = precio × cantidad). Vue lo recalcula solo cuando cambian sus dependencias.',
     path: 'computed-watch',
   },
   {
     term: 'Props',
-    def: 'Datos que el padre pasa al hijo (de arriba abajo). El hijo los recibe pero no los cambia a su aire.',
+    def: 'Datos que el padre envía al hijo «hacia abajo». El hijo no debe cambiarlos por su cuenta: pide al padre que los actualice.',
     path: 'props-emit',
   },
   {
     term: 'emit',
-    def: 'Forma en que el hijo avisa al padre (“haz +1”, “cierra”, etc.). El padre escucha con @nombreEvento.',
+    def: 'Forma en que el hijo avisa al padre («suma uno», «cierra ventana»…). El padre escucha con `@nombreDelEvento`.',
     path: 'props-emit',
   },
   {
     term: 'Slot',
-    def: 'Hueco en el HTML de un componente hijo que el padre rellena con su propio contenido.',
+    def: 'Hueco en el template del hijo que el padre rellena con su propio HTML al usar el componente.',
     path: 'slots',
   },
   {
     term: 'Vue Router',
-    def: 'Librería que une cada URL (ej. /listas) con un componente, sin recargar toda la página.',
+    def: 'Biblioteca que asocia cada URL a un componente sin recargar toda la página: navegación dentro de una SPA.',
     path: 'router-y-mas',
   },
   {
     term: 'fetch',
-    def: 'Función del navegador para pedir datos por HTTP. Suele ir con async/await y devuelve JSON con .json().',
+    def: 'Función del navegador para pedir recursos por HTTP. Suele usarse con async/await y `.json()` para leer respuestas JSON.',
     path: 'datos-remotos',
   },
   {
     term: 'Pinia',
-    def: 'Librería oficial de “tiendas” para compartir estado entre muchos componentes sin pasar props en cadena.',
+    def: 'Forma oficial en Vue 3 de tener «tiendas» de datos compartidos entre muchos componentes sin pasar props en cadena.',
     path: 'pinia',
   },
   {
     term: 'Tienda (store)',
-    def: 'Archivo donde defines datos y acciones globales; en Pinia se crea con defineStore y se usa con useMiTienda().',
+    def: 'Módulo donde defines estado y acciones globales; en Pinia se declara con defineStore y se usa en componentes con el hook correspondiente.',
     path: 'pinia',
   },
 ]

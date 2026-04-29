@@ -2,56 +2,58 @@
   <article class="lesson-page">
     <h1>¿Qué es Vue?</h1>
     <p class="lead">
-      Con HTML y CSS haces la estructura y el aspecto. Con JavaScript sueles buscar elementos en la página (el
-      <strong>DOM</strong>: el árbol de etiquetas que ve el navegador) y cambiar textos, clases o escuchar clics. Eso
-      funciona, pero en apps un poco grandes el código se vuelve difícil de mantener.
+      Con <strong>HTML</strong> marcas la estructura y con <strong>CSS</strong> el aspecto. Con <strong>JavaScript</strong>
+      sueles buscar elementos en el navegador (el <strong>DOM</strong>: el árbol de etiquetas) y cambiar textos, clases o
+      escuchar pulsaciones. Eso funciona, pero en aplicaciones medianas el código se vuelve frágil y cuesta ver qué dato
+      «manda» en cada pantalla.
     </p>
     <p>
-      <strong>Vue</strong> es una herramienta (una biblioteca / framework) que te ayuda a partir la pantalla en
-      <strong>bloques reutilizables</strong> llamados <strong>componentes</strong>. Cada bloque tiene su HTML, su CSS y
-      la lógica en JavaScript. Lo importante: describes <em>qué datos tienes</em> y <em>cómo debe verse la página cuando
-      esos datos cambian</em>; Vue se encarga de actualizar el DOM por ti.
+      <strong>Vue</strong> es una herramienta (<strong>marco de trabajo / librería</strong> según cómo la montes) para
+      dividir la interfaz en <strong>componentes</strong>: cada uno con su plantilla HTML, sus estilos y su lógica.
+      Tú declaras <em>qué datos tiene la pieza</em> y <em>cómo debería verse cuando esos datos cambian</em>; Vue
+      actualiza el DOM por ti. Sigues escribiendo JavaScript normal en el script del componente.
     </p>
 
-    <h2>Relación con lo que ya conoces</h2>
+    <h2>Relación con lo que ya hacías a mano</h2>
     <ul>
       <li>
-        En vez de hacer <code class="inline">elemento.textContent = 'Hola'</code> cada vez, guardas el texto en una
-        variable “especial” y en el HTML escribes algo como <code class="inline">&#123;&#123; mensaje &#125;&#125;</code>.
+        En lugar de repetir <code class="inline">elemento.textContent = …</code> en cada cambio, guardas el texto en una
+        variable reactiva y en el HTML usas
+        <code class="inline">&#123;&#123; mensaje &#125;&#125;</code> para mostrarla.
       </li>
       <li>
-        En vez de muchos <code class="inline">addEventListener</code> repartidos, puedes enlazar eventos en las propias
-        etiquetas (<code class="inline">@click</code>, etc.).
+        En lugar de registrar muchos <code class="inline">addEventListener</code> dispersos, enlazas el evento en la
+        propia etiqueta con <code class="inline">@click</code>, <code class="inline">@submit</code>, etc.
       </li>
-      <li>Sigue siendo JavaScript normal debajo; no es otro lenguaje.</li>
+      <li>Debajo sigue siendo JavaScript: no es otro lenguaje de programación distinto.</li>
     </ul>
 
-    <h2>¿Por qué molestarse?</h2>
+    <h2>¿Para qué merece la pena?</h2>
     <ul>
-      <li><strong>Menos trabajo repetitivo</strong> al actualizar la pantalla cuando cambian los datos.</li>
+      <li><strong>Menos trabajo repetitivo</strong> cuando los datos y la vista deben ir sincronizados.</li>
       <li>
-        <strong>Bloques claros:</strong> un mismo “botón” o “tarjeta” se puede usar en varias vistas sin copiar y pegar
-        HTML a mano.
+        <strong>Componentes reutilizables:</strong> una tarjeta, un botón o un panel puedes usarlos en varias pantallas
+        sin duplicar montones de HTML.
       </li>
       <li>
-        <strong>Herramientas que encajan:</strong> en proyectos reales casi siempre usarás algo para las “páginas” (en esta
-        web es <strong>Vue Router</strong>) y, más adelante, para datos globales (por ejemplo <strong>Pinia</strong>).
-        No hace falta que sepas eso ahora; aquí solo ves que existen.
+        <strong>Herramientas de equipo real:</strong> en proyectos serios casi siempre hay enrutador (en esta web,
+        <strong>Vue Router</strong>) y a veces estado global (por ejemplo <strong>Pinia</strong>). No hace falta dominar
+        eso al primer día; aquí solo verás que encajan con lo demás.
       </li>
     </ul>
 
-    <h2>Qué es Vue 3 y ese <code class="inline">&lt;script setup&gt;</code></h2>
+    <h2>Vue 3 y <code class="inline">&lt;script setup&gt;</code></h2>
     <p>
-      La versión actual es <strong>Vue 3</strong>. En este curso la lógica va en
-      <code class="inline">&lt;script setup&gt;</code>: es una forma cómoda de escribir el JavaScript del componente. No
-      tienes que compararla con Vue 2 todavía; si ves tutoriales viejos, pueden usar otra sintaxis, pero la idea (datos →
-      vista) es la misma.
+      La rama actual es <strong>Vue 3</strong>. En este curso la lógica irá en
+      <code class="inline">&lt;script setup&gt;</code>: una forma corta y habitual de escribir el script del componente.
+      Si encuentras tutoriales antiguos de Vue 2, la sintaxis puede diferir, pero la idea (datos → plantilla
+      actualizada) es la misma.
     </p>
 
-    <h2>Siguiente paso</h2>
+    <h2>Siguiente paso sugerido</h2>
     <p>
-      Sigue con <strong>Archivos .vue</strong> para ver cómo encajan en un solo archivo el script, el HTML y los
-      estilos.
+      Continúa con <strong>Archivos .vue</strong> para ver cómo el script, la plantilla y los estilos conviven en un solo
+      fichero.
     </p>
   </article>
 </template>

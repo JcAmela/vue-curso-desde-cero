@@ -1,6 +1,6 @@
 /**
- * Currículo del curso "Vue desde cero".
- * Cada entrada coincide con una ruta hija bajo /.
+ * Currículo del curso «Vue desde cero» (es-ES).
+ * Cada entrada coincide con una ruta hija bajo /. Los resúmenes anticipan qué podrás hacer al terminar.
  */
 export const lessons = [
   {
@@ -8,7 +8,8 @@ export const lessons = [
     path: 'intro',
     title: '¿Qué es Vue?',
     icon: '🌱',
-    summary: 'Qué problema resuelve Vue si ya sabes armar páginas con HTML, CSS y un poco de JS.',
+    summary:
+      'Idea general: por qué conviene trocear la interfaz en componentes y cómo Vue se encarga de mantener la vista alineada con tus datos.',
     minutes: 8,
   },
   {
@@ -16,7 +17,8 @@ export const lessons = [
     path: 'sfc',
     title: 'Archivos .vue',
     icon: '📄',
-    summary: 'Un solo archivo con la lógica (JS), el HTML y el CSS del bloque, como varias hojas en una.',
+    summary:
+      'Un único fichero junta script, plantilla HTML y estilos: la base de casi todo proyecto Vue con Vite.',
     minutes: 10,
   },
   {
@@ -24,7 +26,8 @@ export const lessons = [
     path: 'reactividad',
     title: 'Reactividad',
     icon: '⚡',
-    summary: 'Guardar un número o texto y que la pantalla se actualice sola, sin tocar el DOM a mano.',
+    summary:
+      'Guardar números o textos en `ref` y que el navegador actualice la pantalla solo, sin tocar el DOM a mano.',
     minutes: 12,
   },
   {
@@ -32,7 +35,8 @@ export const lessons = [
     path: 'plantilla',
     title: 'Plantilla y directivas',
     icon: '🎯',
-    summary: 'Mostrar variables en el HTML y enseñar u ocultar bloques con atributos especiales de Vue.',
+    summary:
+      'Mostrar datos en el HTML, condiciones (`v-if`), enlazar atributos (`:`) y reaccionar a eventos (`@`).',
     minutes: 14,
   },
   {
@@ -40,7 +44,8 @@ export const lessons = [
     path: 'eventos',
     title: 'Eventos',
     icon: '👆',
-    summary: 'Reaccionar a clics y teclas: parecido a addEventListener, pero en el HTML del componente.',
+    summary:
+      'Responder a clics, teclas o envío de formulario de forma clara, parecido a addEventListener pero en la plantilla.',
     minutes: 10,
   },
   {
@@ -48,7 +53,8 @@ export const lessons = [
     path: 'listas',
     title: 'Listas',
     icon: '📋',
-    summary: 'Rep filas de una lista en el HTML usando un bucle, como un for en JavaScript aplicado a etiquetas.',
+    summary:
+      'Repetir filas o tarjetas con `v-for` y elegir una `:key` que no rompa la lista si cambia el orden.',
     minutes: 12,
   },
   {
@@ -56,7 +62,8 @@ export const lessons = [
     path: 'formularios',
     title: 'Formularios',
     icon: '✏️',
-    summary: 'Inputs, casillas y desplegables enlazados a variables: lo que escribes se guarda en una sola línea.',
+    summary:
+      'Casillas, cuadros de texto y desplegables enlazados con `v-model`: lo que escribes y lo que guarda la variable van a la par.',
     minutes: 12,
   },
   {
@@ -64,7 +71,8 @@ export const lessons = [
     path: 'computed-watch',
     title: 'Computed y watch',
     icon: '🔄',
-    summary: 'Calcular totales a partir de otros datos y ejecutar código cuando algo cambia (más adelante: APIs).',
+    summary:
+      'Calcular valores derivados con `computed` y ejecutar acciones cuando cambia algo con `watch` (útil antes de APIs).',
     minutes: 14,
   },
   {
@@ -72,7 +80,8 @@ export const lessons = [
     path: 'props-emit',
     title: 'Props y emit',
     icon: '🔌',
-    summary: 'Piezas de la página que reciben datos del “padre” y avisan al padre con eventos.',
+    summary:
+      'Montar piezas que reciben datos del componente padre y le avisan con eventos cuando ocurre algo importante.',
     minutes: 16,
   },
   {
@@ -80,7 +89,8 @@ export const lessons = [
     path: 'slots',
     title: 'Slots',
     icon: '🧩',
-    summary: 'Dejar “huecos” en un componente para que quien lo use meta su propio HTML adentro.',
+    summary:
+      'Dejar sitios reservados en un componente para que quien lo use inserte su propio contenido HTML.',
     minutes: 12,
   },
   {
@@ -88,7 +98,8 @@ export const lessons = [
     path: 'router-y-mas',
     title: 'Router y siguiente paso',
     icon: '🚀',
-    summary: 'Cómo esta web cambia de pantalla sin recargar y qué temas tocar cuando domines lo anterior.',
+    summary:
+      'Cómo encajan las rutas en esta propia web y qué temas suele tocar quien ya domina lo anterior.',
     minutes: 10,
   },
   {
@@ -96,7 +107,8 @@ export const lessons = [
     path: 'datos-remotos',
     title: 'Datos remotos (fetch)',
     icon: '🌐',
-    summary: 'Pedir JSON a Internet: cargando, errores y mostrar resultados como en una app real.',
+    summary:
+      'Pedir JSON a un servidor: estados de carga y error, y mostrar el resultado como en una aplicación real.',
     minutes: 18,
   },
   {
@@ -104,7 +116,8 @@ export const lessons = [
     path: 'pinia',
     title: 'Estado global (Pinia)',
     icon: '🗂️',
-    summary: 'Un almacén compartido para varias pantallas sin enredar props entre todos los componentes.',
+    summary:
+      'Compartir datos entre pantallas lejanas sin enredar la familia de componentes con props en cadena.',
     minutes: 16,
   },
   {
@@ -112,7 +125,8 @@ export const lessons = [
     path: 'practica',
     title: 'Ejercicios prácticos',
     icon: '✅',
-    summary: 'Retos con pistas y soluciones: lo ideal es hacerlos en tu editor dentro de este proyecto.',
+    summary:
+      'Retos guiados con pistas y soluciones de ejemplo; lo ideal es practicarlos en tu editor dentro de este proyecto.',
     minutes: 45,
   },
 ]

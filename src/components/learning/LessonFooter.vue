@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { lessons } from '../../data/curriculum'
 import { useLessonNav } from '../../composables/useLessonNav'
 import { useLessonProgress } from '../../composables/useLessonProgress'
 
@@ -8,16 +9,18 @@ const route = useRoute()
 const { prevLesson, nextLesson } = useLessonNav()
 const { isDone, toggleDone } = useLessonProgress()
 
+const lessonRouteNames = new Set(lessons.map((l) => l.name))
+
 const slug = computed(() => route.name)
 
-const showLessonTools = computed(() => slug.value !== 'home' && typeof slug.value === 'string')
+const showLessonTools = computed(() => typeof slug.value === 'string' && lessonRouteNames.has(slug.value))
 </script>
 
 <template>
   <footer v-if="showLessonTools" class="lesson-footer">
     <div class="actions">
       <button type="button" class="btn-done" :class="{ on: isDone(slug) }" @click="toggleDone(slug)">
-        {{ isDone(slug) ? '✓ Ya la marqué como leída (clic para deshacer)' : 'Marcar esta lección como leída' }}
+        {{ isDone(slug) ? '✓ Lección marcada como leída (pulsa para deshacer)' : 'Marcar esta lección como leída' }}
       </button>
     </div>
     <nav class="pager" aria-label="Lecciones anterior y siguiente">

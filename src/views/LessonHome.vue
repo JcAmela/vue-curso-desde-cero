@@ -7,37 +7,77 @@ import { glossary } from '../data/glossary'
 <template>
   <div class="lesson-page">
     <header class="home-hero">
-      <p class="badge">Curso en el navegador · pensado si ya sabes HTML, CSS y JS básico</p>
-      <h1>Aprende Vue paso a paso</h1>
+      <p class="badge">Curso en el navegador · base: HTML, CSS y un poco de JavaScript</p>
+      <h1>Vue desde cero, con tres caminos de estudio</h1>
       <p class="lead">
-        Si sabes hacer una página con <strong>HTML</strong>, darle estilo con <strong>CSS</strong> y escribir un poco de
-        <strong>JavaScript</strong> (variables, funciones, <code class="inline">querySelector</code>,
-        <code class="inline">addEventListener</code>), este curso te lleva al siguiente nivel. Cada lección tiene texto
-        corto y una zona donde puedes probar cosas.
+        Si sabes montar una página con <strong>HTML</strong>, darle estilo con <strong>CSS</strong> y escribir algo de
+        <strong>JavaScript</strong> (variables, funciones, <code class="inline">querySelector</code> y
+        <code class="inline">addEventListener</code>), puedes seguir este curso sin problema. El objetivo es que pases de
+        «manipular el DOM a mano» a «describir datos y dejar que Vue mantenga la pantalla al día».
       </p>
       <p>
-        Tu <strong>progreso</strong> (qué lecciones marcas como hechas) se guarda en el navegador, en
-        <code class="inline">localStorage</code>: no hace falta cuenta; si borras los datos del sitio, se pierde el
-        progreso.
-      </p>
-      <p>
-        Empieza por
-        <RouterLink to="/intro">¿Qué es Vue?</RouterLink>
-        o elige un tema en las tarjetas de abajo. Si te pierdes con el vocabulario, tienes un
-        <a href="#glossary-title">glosario corto</a>. Para practicar con retos y soluciones, abre
-        <RouterLink to="/practica">ejercicios prácticos</RouterLink>; también añadimos al curso
-        <RouterLink to="/datos-remotos">datos remotos (fetch)</RouterLink> y
-        <RouterLink to="/pinia">estado global (Pinia)</RouterLink>.
+        <strong>Cómo está organizado (aprendizaje por capas):</strong> primero puedes leer la
+        <RouterLink to="/teoria">teoría tipo manual</RouterLink>; en paralelo o después, la
+        <RouterLink to="/guia">guía con consola</RouterLink> te hace practicar cada idea con feedback inmediato; las
+        <strong>lecciones con demos</strong> sirven de referencia por tema cuando necesites una explicación más pausada
+        o un ejemplo visual. Marca las lecciones como leídas cuando termines: el progreso se guarda en
+        <code class="inline">localStorage</code> en este navegador (si borras datos del sitio, se pierde la marca).
       </p>
     </header>
 
-    <h2>Lecciones</h2>
+    <h2 class="home-h2">Por dónde empezar</h2>
+    <ul class="home-pillars">
+      <li>
+        <RouterLink class="pillar-card" to="/teoria">
+          <span class="pillar-ico" aria-hidden="true">📖</span>
+          <h3>Teoría (libro)</h3>
+          <p>
+            Capítulos enlazados de lo general a lo concreto. Ideal para una primera lectura o para volver a un concepto
+            con el índice.
+          </p>
+          <span class="pillar-cta">Abrir teoría →</span>
+        </RouterLink>
+      </li>
+      <li>
+        <RouterLink class="pillar-card pillar-accent" to="/guia">
+          <span class="pillar-ico" aria-hidden="true">🧰</span>
+          <h3>Guía paso a paso</h3>
+          <p>
+            Doce talleres con código ejecutable en el navegador, checklist para repetir en tu editor y un mini test por
+            paso. Es el camino más práctico.
+          </p>
+          <span class="pillar-cta">Empezar la guía →</span>
+        </RouterLink>
+      </li>
+      <li>
+        <RouterLink class="pillar-card" to="/practica">
+          <span class="pillar-ico" aria-hidden="true">✏️</span>
+          <h3>Práctica y retos</h3>
+          <p>
+            Ejercicios con enunciado, pistas y solución de referencia. Combínalos con la guía cuando quieras consolidar.
+          </p>
+          <span class="pillar-cta">Ir a práctica →</span>
+        </RouterLink>
+      </li>
+    </ul>
+
+    <p class="home-after-pillars">
+      ¿Primera vez con el curso? Empieza por
+      <RouterLink to="/intro">¿Qué es Vue?</RouterLink>
+      y luego elige teoría o guía según prefieras leer antes o tocar código. Más abajo tienes todas las lecciones con
+      demos. Si te pierdes con el vocabulario, usa el
+      <a href="#glossary-title">glosario</a>;
+      <RouterLink to="/datos-remotos">datos remotos (fetch)</RouterLink> y
+      <RouterLink to="/pinia">estado global (Pinia)</RouterLink> están también en el menú lateral.
+    </p>
+
+    <h2 class="home-h2">Lecciones con demos</h2>
     <ul class="lesson-cards">
       <li v-for="l in lessons" :key="l.name">
         <RouterLink class="lesson-card" :to="'/' + l.path">
           <span class="ico" aria-hidden="true">{{ l.icon }}</span>
           <h2>{{ l.title }}</h2>
-          <p class="meta">~{{ l.minutes }} min</p>
+          <p class="meta">~{{ l.minutes }} min de lectura orientativa</p>
           <p>{{ l.summary }}</p>
           <span class="cta">Abrir lección →</span>
         </RouterLink>
@@ -47,8 +87,8 @@ import { glossary } from '../data/glossary'
     <section class="glossary-section" aria-labelledby="glossary-title">
       <h2 id="glossary-title">Glosario rápido</h2>
       <p class="glossary-intro">
-        Palabras que salen en casi todos los tutoriales. Vuelve aquí cuando leas una lección y no recuerdes el término.
-        Algunas entradas enlazan a la lección donde se explica con más calma.
+        Términos que salen en casi todos los tutoriales de Vue. Léelo por encima una vez y vuelve aquí cuando algo no te
+        suene; muchas entradas enlazan a la lección donde se explica con más detalle.
       </p>
       <dl class="glossary-list">
         <div v-for="(item, i) in glossary" :key="i" class="glossary-row">

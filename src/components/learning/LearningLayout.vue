@@ -11,10 +11,19 @@ const { percent, completedCount, total, isDone } = useLessonProgress()
 function closeMenu() {
   menuOpen.value = false
 }
+
+function focusMain(e) {
+  e.preventDefault()
+  const el = document.getElementById('contenido-principal')
+  if (!el) return
+  el.focus({ preventScroll: true })
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 </script>
 
 <template>
   <div class="learn-app">
+    <a href="#contenido-principal" class="skip-link" @click="focusMain">Saltar al contenido</a>
     <button
       type="button"
       class="fab-menu"
@@ -43,15 +52,38 @@ function closeMenu() {
             <div class="progress-fill" :style="{ width: percent + '%' }" />
           </div>
           <p class="progress-hint">
-            Cuando termines una lección, pulsa “Marcar…” abajo. Se recuerda en este navegador (no en un servidor).
+            Cuando acabes una lección del menú, pulsa «Marcar…» abajo. Es solo en este navegador (no hace falta cuenta);
+            si borras los datos del sitio, perderás las marcas.
           </p>
         </div>
 
-        <nav class="side-nav" aria-label="Lecciones">
+        <nav class="side-nav learn-pill-nav" aria-label="Rutas de aprendizaje">
           <RouterLink class="nav-item home-link" to="/" :class="{ active: $route.name === 'home' }" @click="closeMenu">
             <span class="ico">🏠</span>
             Inicio del curso
           </RouterLink>
+          <RouterLink
+            class="nav-item accent-link"
+            to="/teoria"
+            :class="{ active: $route.name === 'theory' }"
+            @click="closeMenu"
+          >
+            <span class="ico">📖</span>
+            Teoría (libro)
+          </RouterLink>
+          <RouterLink
+            class="nav-item accent-link"
+            to="/guia"
+            :class="{ active: $route.name === 'guide-hub' || $route.name === 'guide-step' }"
+            @click="closeMenu"
+          >
+            <span class="ico">🧰</span>
+            Guía paso a paso
+          </RouterLink>
+        </nav>
+
+        <p class="side-section-label">Lecciones con demos</p>
+        <nav class="side-nav" aria-label="Lecciones">
           <RouterLink
             v-for="l in lessons"
             :key="l.name"
@@ -68,25 +100,49 @@ function closeMenu() {
       </div>
     </aside>
 
-    <div class="main-wrap learn-main">
+    <main id="contenido-principal" class="main-wrap learn-main" tabindex="-1">
       <RouterView v-slot="{ Component, route }">
         <Transition name="fade" mode="out-in">
           <component :is="Component" :key="route.path" />
         </Transition>
       </RouterView>
       <LessonFooter />
-    </div>
+    </main>
   </div>
 </template>
 
 <style scoped>
 .learn-app {
+  position: relative;
   min-height: 100vh;
   display: flex;
   background:
     radial-gradient(1000px 500px at 0% 0%, rgba(66, 184, 131, 0.14), transparent 55%),
     radial-gradient(800px 400px at 100% 10%, rgba(53, 73, 94, 0.08), transparent 45%),
     linear-gradient(180deg, #eef6f2 0%, #f3f1f8 45%, #faf9fc 100%);
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.65rem;
+  left: 0.65rem;
+  z-index: 100;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff !important;
+  text-decoration: none !important;
+  background: var(--lv-navy);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(calc(-100% - 2rem));
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 3px solid var(--lv-green);
+  outline-offset: 3px;
 }
 
 .sidebar {
@@ -233,16 +289,56 @@ function closeMenu() {
   font-weight: 800;
 }
 
-.home-link {
-  margin-bottom: 0.35rem;
+.learn-pill-nav {
+  margin-bottom: 0.5rem;
+}
+
+.side-section-label {
+  margin: 0.85rem 0 0.35rem;
+  padding: 0 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lv-muted);
+}
+
+.home-link,
+.accent-link {
   padding: 0.55rem 0.55rem;
+}
+
+.home-link {
+  margin-bottom: 0.15rem;
   background: rgba(53, 73, 94, 0.04);
+}
+
+.accent-link {
+  background: rgba(66, 184, 131, 0.06);
+  border: 1px dashed rgba(66, 184, 131, 0.35);
+}
+
+.accent-link:hover {
+  background: rgba(66, 184, 131, 0.11);
+}
+
+.accent-link.active {
+  border-style: solid;
 }
 
 .main-wrap {
   flex: 1;
   min-width: 0;
   padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4vw, 2.5rem) 3rem;
+}
+
+.main-wrap:focus {
+  outline: none;
+}
+
+.main-wrap:focus-visible {
+  outline: 2px dashed var(--lv-green);
+  outline-offset: 6px;
 }
 
 .fab-menu {

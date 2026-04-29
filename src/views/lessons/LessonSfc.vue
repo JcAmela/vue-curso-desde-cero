@@ -28,7 +28,7 @@
     </ol>
 
     <h2>Ejemplo mínimo (no hace falta memorizarlo)</h2>
-    <p>Mira la forma: script arriba, HTML en el medio, estilo abajo.</p>
+    <p>Fíjate en la estructura: script arriba, HTML en el medio, estilo abajo.</p>
     <pre class="code-block">&lt;script setup&gt;
 import { ref } from 'vue'
 const mensaje = ref('Hola')

@@ -5,7 +5,7 @@ import TryItBox from '../../components/learning/TryItBox.vue'
 const nombre = ref('')
 const plan = ref('pro')
 const acepta = ref(false)
-const aceptaTexto = computed(() => (acepta.value ? 'Has marcado la casilla.' : 'Aún no marcas la casilla.'))
+const aceptaTexto = computed(() => (acepta.value ? 'Has marcado la casilla.' : 'Aún no has marcado la casilla.'))
 const resumen = computed(() => {
   const n = nombre.value.trim()
   if (!n) return 'Escribe un nombre para ver el resumen.'

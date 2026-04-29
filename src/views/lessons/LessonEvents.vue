@@ -46,7 +46,7 @@ function onKeydown(e) {
     <TryItBox>
       <p>Clics en el botón: <strong>{{ clics }}</strong></p>
       <button type="button" class="hit" @click="onDivClick">Púlsame — uso <code class="inline">@click</code></button>
-      <p class="kbd-hint">Haz clic en el cuadro de abajo y escribe algo; veremos la última tecla:</p>
+      <p class="kbd-hint">Pulsa dentro del recuadro y escribe algo; mostraremos la última tecla pulsada:</p>
       <input class="keyfield" type="text" placeholder="Escribe aquí…" @keydown="onKeydown" />
       <p class="tecla">Última tecla: <strong>{{ tecla }}</strong></p>
     </TryItBox>

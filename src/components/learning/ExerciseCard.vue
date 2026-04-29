@@ -29,12 +29,21 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
       </div>
     </header>
 
+    <p v-if="exercise.goal" class="ex-goal">{{ exercise.goal }}</p>
+
     <div class="ex-body">
       <p v-for="(line, i) in exercise.problem" :key="i">{{ line }}</p>
     </div>
 
+    <div v-if="exercise.successCheck?.length" class="ex-success">
+      <p class="ex-success-title">Cómo saber que lo llevas bien</p>
+      <ul>
+        <li v-for="(c, i) in exercise.successCheck" :key="i">{{ c }}</li>
+      </ul>
+    </div>
+
     <details class="block hints">
-      <summary>Pistas (ábrela solo si te atascas)</summary>
+      <summary>Pistas (solo si te atascas)</summary>
       <ul>
         <li v-for="(h, i) in exercise.hints" :key="i">{{ h }}</li>
       </ul>
@@ -43,14 +52,14 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
     <details class="block sol">
       <summary>Ver una solución de referencia</summary>
       <p class="sol-warn">
-        Inténtalo antes en tu editor. Esta solución es una guía; puede haber otras formas igual de válidas.
+        Prueba tú primero en tu editor. Es una guía posible; en Vue suele haber varias implementaciones correctas.
       </p>
       <pre class="code-block sol-pre"><code>{{ exercise.solution }}</code></pre>
     </details>
 
     <label class="done-label">
       <input type="checkbox" :checked="isExerciseDone(exercise.id)" @change="toggleExercise(exercise.id)" />
-      Lo intenté en mi proyecto (solo ayuda a tu seguimiento; se guarda en el navegador)
+      Lo he intentado en mi proyecto (solo para tu seguimiento; se guarda en este navegador)
     </label>
   </article>
 </template>
@@ -116,10 +125,45 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
   text-decoration: none !important;
 }
 
+.ex-goal {
+  margin: 0 0 0.85rem !important;
+  padding: 0.65rem 0.8rem;
+  max-width: 68ch !important;
+  font-size: 0.92rem !important;
+  line-height: 1.5 !important;
+  background: rgba(66, 184, 131, 0.08);
+  border-radius: var(--lv-radius-sm);
+  border-left: 3px solid var(--lv-green);
+}
+
 .ex-body p {
   margin: 0 0 0.55rem !important;
   max-width: 65ch !important;
   font-size: 0.95rem !important;
+}
+
+.ex-success {
+  margin: 0.75rem 0 0;
+  padding: 0.55rem 0.75rem 0.65rem;
+  background: rgba(59, 130, 246, 0.06);
+  border-radius: var(--lv-radius-sm);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.ex-success-title {
+  margin: 0 0 0.35rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1d4ed8;
+}
+
+.ex-success ul {
+  margin: 0 !important;
+  padding-left: 1.15rem !important;
+  font-size: 0.88rem !important;
+  line-height: 1.45 !important;
 }
 
 .block {

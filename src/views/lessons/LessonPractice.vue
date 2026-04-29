@@ -11,31 +11,34 @@ const { exerciseDoneCount, exercisePercent, totalExercises } = useExerciseProgre
   <article class="lesson-page practice-page">
     <h1>Ejercicios prácticos</h1>
     <p class="lead">
-      Lo que realmente fija conceptos es <strong>escribir código tú misma o tú mismo</strong>. Abre esta carpeta del
-      proyecto en tu editor (VS Code, Cursor, etc.), crea archivos
-      <code class="inline">.vue</code> de prueba o modifica componentes en
-      <code class="inline">src/components/</code> y ve compilando con <code class="inline">npm run dev</code>.
+      Aquí aplicamos <strong>práctica deliberada</strong>: cada enunciado tiene objetivo claro, pasos y criterios para
+      saber si lo has entendido. Abre el proyecto en tu editor (VS Code, Cursor…), crea
+      <code class="inline">.vue</code> de prueba o amplía componentes en
+      <code class="inline">src/components/</code> y mantén <code class="inline">npm run dev</code> en marcha para ver
+      cambios al instante.
     </p>
 
     <div class="progress-mini" role="status">
-      <span>Ejercicios marcados como «intentados» en esta página:</span>
+      <span>Ejercicios que marcas como «hechos» en esta página:</span>
       <strong>{{ exerciseDoneCount }} / {{ totalExercises }}</strong>
       <span class="bar"><i :style="{ width: exercisePercent + '%' }" /></span>
     </div>
 
-    <h2>Cómo usar esta sección</h2>
+    <h2>Cómo sacarles partido</h2>
     <ol>
-      <li>Lee el enunciado sin abrir pistas ni solución.</li>
-      <li>Implementa en tu máquina; si te bloqueas, abre solo las pistas.</li>
-      <li>Compara con la solución de referencia (no tiene por qué ser idéntica letra a letra).</li>
-      <li>Marca la casilla al final cuando lo hayas intentado de verdad (es opcional y es solo local).</li>
+      <li>Lee el bloque verde (objetivo) y los pasos; aún no abras pistas ni solución.</li>
+      <li>Escribe código en tu máquina; si te atas cas, abre solo las pistas («solo si te atascas»).</li>
+      <li>Comprueba los criterios «Cómo saber que lo llevas bien»; si falla algo, depura y vuelve a leer la lección enlazada.</li>
+      <li>Al final, mira la solución de referencia: vale que sea distinta si el comportamiento es el mismo.</li>
+      <li>Marca la casilla cuando lo hayas intentado en serio (solo se guarda en este navegador).</li>
     </ol>
 
     <p class="note">
-      Si no sabes por dónde empezar, sigue el orden 1 → 8. Los tres últimos encajan con
-      <RouterLink to="/computed-watch">computed</RouterLink>,
-      <RouterLink to="/datos-remotos">fetch</RouterLink> y
-      <RouterLink to="/pinia">Pinia</RouterLink>.
+      Hay ocho ejercicios en orden creciente de soltura: si no sabes por dónde empezar, respeta el número de cada
+      tarjeta. Los que suelen llevar más tiempo son
+      <RouterLink to="/listas">listas</RouterLink>, el de
+      <RouterLink to="/datos-remotos">fetch</RouterLink>, <RouterLink to="/pinia">Pinia</RouterLink> y el
+      <RouterLink to="/formularios">formulario final</RouterLink>.
     </p>
 
     <ExerciseCard v-for="(ex, i) in exercises" :key="ex.id" :exercise="ex" :index="i" />
