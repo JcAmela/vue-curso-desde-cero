@@ -25,6 +25,9 @@ export const exercises = [
       'Importa ref desde "vue" y envuelve el valor: const nombre = ref(\'Amigo\').',
       'v-model enlaza el input y el ref en las dos direcciones; no necesitas @input a mano.',
     ],
+    stretch: [
+      'Añade un ref apellido y muestra «Hola, nombre apellido» en una sola línea (con espacios razonables).',
+    ],
     solution: `<script setup>
 import { ref } from 'vue'
 const nombre = ref('Amigo')
@@ -55,6 +58,9 @@ const nombre = ref('Amigo')
       'function mas() { contador.value++ } y function menos() { ... }',
       'Para el mínimo: if (contador.value > 0) contador.value-- dentro de menos().',
       'Opcional: :disabled="contador === 0" en el botón − para feedback visual.',
+    ],
+    stretch: [
+      'Añade botones «+2» y «Volver a 0» que llamen a funciones del script.',
     ],
     solution: `<script setup>
 import { ref } from 'vue'
@@ -94,6 +100,10 @@ function menos() {
       'Al añadir: const t = borrador.value.trim(); if (!t) return; y luego empuja al array o copia con spread.',
       'Al quitar por texto: items.value = items.value.filter((x) => x !== texto).',
       'Si más adelante repites nombres en la lista, pasa a objetos { id, texto } y :key="id".',
+    ],
+    stretch: [
+      'Muestra el número de ítems en pantalla (items.length o un computed trivial).',
+      'Bonus: un botón «Ordenar A→Z» que ordene copiando el array (sin mutar a lo loco: spread + sort).',
     ],
     solution: `<script setup>
 import { ref } from 'vue'
@@ -218,6 +228,9 @@ function toggle() {
       'finally { cargando.value = false } — así el estado de carga se limpia aunque falle el try.',
       'Esta URL suele funcionar desde el navegador sin configurar CORS en tu proyecto.',
     ],
+    stretch: [
+      'Elige el id de usuario (por ejemplo 1–5) con un select o un número antes de cargar; arma la URL con una plantilla `${base}/${id}`.',
+    ],
     solution: `<script setup>
 import { ref } from 'vue'
 
@@ -334,6 +347,10 @@ function add() {
       'En el botón: :disabled="!puedeEnviar"',
       'Al enviar: if (!puedeEnviar.value) return antes de empujar al historial.',
       'Si edad “vacía” da problemas, min="0" en el input y comprueba con Number(edad.value).',
+    ],
+    stretch: [
+      'Impide registrar si el nombre contiene dígitos (búsqueda con /\d/ o similar en un computed).',
+      'Botón «Borrar historial» que solo actúe tras confirm() del navegador.',
     ],
     solution: `<script setup>
 import { ref, computed } from 'vue'

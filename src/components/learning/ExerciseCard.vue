@@ -1,20 +1,46 @@
 <script setup>
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useExerciseProgress } from '../../composables/useExerciseProgress'
 
-defineProps({
+const props = defineProps({
   exercise: {
     type: Object,
     required: true,
   },
   index: { type: Number, required: true },
+  /** Siguiente ejercicio del programa (mismo orden que en `exercises.js`). */
+  nextExercise: { type: Object, default: null },
 })
 
 const { toggleExercise, isExerciseDone } = useExerciseProgress()
+
+const copyFeedback = ref('')
+
+function anchorUrl() {
+  const base = import.meta.env.BASE_URL || '/'
+  const normalized = base.endsWith('/') ? base : `${base}/`
+  return `${window.location.origin}${normalized}practica#${props.exercise.id}`
+}
+
+async function copyExerciseLink() {
+  try {
+    await navigator.clipboard.writeText(anchorUrl())
+    copyFeedback.value = 'Enlace copiado'
+    window.setTimeout(() => {
+      copyFeedback.value = ''
+    }, 2000)
+  } catch {
+    copyFeedback.value = 'No se ha podido copiar'
+    window.setTimeout(() => {
+      copyFeedback.value = ''
+    }, 2500)
+  }
+}
 </script>
 
 <template>
-  <article class="ex-card">
+  <article :id="exercise.id" class="ex-card">
     <header class="ex-head">
       <span class="ex-num">{{ index + 1 }}</span>
       <div class="ex-titles">
@@ -42,12 +68,20 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
       </ul>
     </div>
 
-    <details class="block hints">
-      <summary>Pistas (solo si te atascas)</summary>
+    <div v-if="exercise.stretch?.length" class="ex-stretch">
+      <p class="ex-stretch-title">Si quieres más reto (opcional)</p>
       <ul>
-        <li v-for="(h, i) in exercise.hints" :key="i">{{ h }}</li>
+        <li v-for="(s, i) in exercise.stretch" :key="i">{{ s }}</li>
       </ul>
-    </details>
+    </div>
+
+    <div v-if="exercise.hints?.length" class="hints-wrap">
+      <p class="hints-lead">Pistas, de una en una (abre solo la que necesites):</p>
+      <details v-for="(h, i) in exercise.hints" :key="i" class="block hint-one">
+        <summary>Pista {{ i + 1 }} de {{ exercise.hints.length }}</summary>
+        <p class="hint-body">{{ h }}</p>
+      </details>
+    </div>
 
     <details class="block sol">
       <summary>Ver una solución de referencia</summary>
@@ -56,6 +90,19 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
       </p>
       <pre class="code-block sol-pre"><code>{{ exercise.solution }}</code></pre>
     </details>
+
+    <div class="ex-footer">
+      <button type="button" class="copy-link" @click="copyExerciseLink">
+        {{ copyFeedback || 'Copiar enlace a este ejercicio' }}
+      </button>
+      <RouterLink
+        v-if="nextExercise"
+        class="next-ex"
+        :to="{ path: '/practica', hash: '#' + nextExercise.id }"
+      >
+        Siguiente: {{ nextExercise.title }} →
+      </RouterLink>
+    </div>
 
     <label class="done-label">
       <input type="checkbox" :checked="isExerciseDone(exercise.id)" @change="toggleExercise(exercise.id)" />
@@ -72,6 +119,7 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
   border-radius: var(--lv-radius);
   border: 1px solid var(--lv-border);
   box-shadow: var(--lv-shadow);
+  scroll-margin-top: 1rem;
 }
 
 .ex-head {
@@ -166,11 +214,67 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
   line-height: 1.45 !important;
 }
 
+.ex-stretch {
+  margin: 0.85rem 0 0;
+  padding: 0.55rem 0.75rem 0.65rem;
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.1), transparent 90%);
+  border-radius: var(--lv-radius-sm);
+  border: 1px dashed rgba(245, 158, 11, 0.45);
+}
+
+.ex-stretch-title {
+  margin: 0 0 0.35rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #b45309;
+}
+
+.ex-stretch ul {
+  margin: 0 !important;
+  padding-left: 1.15rem !important;
+  font-size: 0.88rem !important;
+  line-height: 1.45 !important;
+}
+
+.hints-wrap {
+  margin: 0.85rem 0 0;
+}
+
+.hints-lead {
+  margin: 0 0 0.45rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 700;
+  color: var(--lv-muted) !important;
+}
+
+.hint-one summary {
+  font-size: 0.88rem;
+}
+
+.hint-body {
+  margin: 0 !important;
+  padding: 0.65rem 0.85rem 0.75rem !important;
+  font-size: 0.88rem !important;
+  line-height: 1.45 !important;
+  border-top: 1px solid var(--lv-border);
+  background: #fff;
+}
+
 .block {
-  margin: 0.85rem 0;
+  margin: 0.45rem 0 0;
   border: 1px solid var(--lv-border);
   border-radius: var(--lv-radius-sm);
   overflow: hidden;
+}
+
+.hints-wrap .hint-one:first-child {
+  margin-top: 0;
+}
+
+.block.sol {
+  margin-top: 0.85rem;
 }
 
 .block summary {
@@ -189,12 +293,6 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
   border-bottom: 1px solid var(--lv-border);
 }
 
-.hints ul {
-  margin: 0 !important;
-  padding: 0.75rem 1.1rem 0.85rem !important;
-  font-size: 0.9rem !important;
-}
-
 .sol-warn {
   margin: 0 !important;
   padding: 0.65rem 0.85rem !important;
@@ -208,6 +306,40 @@ const { toggleExercise, isExerciseDone } = useExerciseProgress()
   margin: 0 !important;
   border-radius: 0 !important;
   max-height: 22rem;
+}
+
+.ex-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--lv-border);
+}
+
+.copy-link {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 650;
+  font-family: inherit;
+  color: var(--lv-navy);
+  background: #fff;
+  border: 1px solid var(--lv-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.copy-link:hover {
+  border-color: rgba(66, 184, 131, 0.45);
+  background: rgba(66, 184, 131, 0.06);
+}
+
+.next-ex {
+  margin-left: auto;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none !important;
 }
 
 .done-label {
