@@ -6,10 +6,18 @@ export const guideStepsMeta = [
   {
     id: 'g01',
     n: 1,
-    title: 'Primer ref en pantalla',
+    title: 'Tu primer ref en pantalla',
     theoryId: 'reactividad',
-    intro:
-      'Objetivo: comprobar que al cambiar un dato en JavaScript el título en pantalla se actualiza solo. Trabajarás con un ref y un `<h1>`; en la consola de la derecha puedes editar y ver la vista previa al momento.',
+    lessonHook: 'Lección 1 · unos minutos · empieza aquí si es tu primera vez con Vue',
+    objectivesHeading: 'Lo que vas a conseguir',
+    intro: [
+      'Este primer taller es corto y va al grano: vas a enlazar un texto en JavaScript con lo que ves en pantalla. Si ya sabes HTML, el `<template>` te resultará familiar; lo nuevo es cómo Vue conecta ese HTML con el `<script setup>`. No hace falta memorizar a la primera: prueba, guarda (Ctrl+S) y mira el resultado; puedes repetir tantas veces como quieras.',
+      '¿Qué es `ref`? Es una función que importas de Vue así: `import { ref } from \'vue\'`. Le pasas un valor inicial —en este paso, una cadena entre comillas simples— y obtienes una caja reactiva: dentro guardas el texto (o más adelante un número, un sí/no, una lista…). Cuando el contenido de esa caja cambia, Vue vuelve a pintar las partes de la página que dependen de ella. Sin eso, en JavaScript clásico tendrías que localizar tú el elemento (por ejemplo el `<h1>`) y asignar `textContent` cada vez que cambie el dato.',
+      'En el ejemplo verás algo como `const titulo = ref(\'Hola, mundo Vue\')`. La palabra `titulo` es solo un nombre de variable: podrías llamarla `cabecera` o `mensaje` si mantienes el mismo nombre en la plantilla. Lo que importa es el patrón: crear la caja con `ref(...)` y mostrarla en el HTML con el mismo identificador.',
+      'Las dobles llaves `{{ titulo }}` significan «sustituye aquí por el valor que hay dentro de la caja». Vue lo muestra como texto normal. (Si en el futuro el texto viniera de fuera y hubiera riesgo de HTML malicioso, el escape por defecto de Vue te protege; por ahora solo editas tú el string.)',
+      'En este paso aún no usamos `.value`. Lo usarás en el paso 2 cuando cambies el ref desde el script (por ejemplo con un botón): ahí el valor «de verdad» va en `.value`. En el `<template>` Vue quita esa capa: `{{ titulo }}`, nunca `{{ titulo.value }}`. Esa costumbre te ahorra errores más adelante.',
+      'Sigue el orden de la página: primero los «tips» rápidos, luego el editor, la checklist para autoevaluarte y un reto de una pregunta (como en los cursos que van por rachas: una unidad, un repaso, una comprobación). Si fallas el reto, no pasa nada: lee la explicación y reintenta. Para profundizar con calma, usa el enlace al capítulo de teoría arriba.',
+    ].join('\n\n'),
   },
   {
     id: 'g02',

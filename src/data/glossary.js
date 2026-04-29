@@ -29,7 +29,7 @@ export const glossary = [
   },
   {
     term: 'ref',
-    def: 'Contenedor reactivo para un valor (número, texto, booleano…). Cuando cambia, Vue actualiza lo que lo muestra en pantalla.',
+    def: 'Función importada de `vue` que envuelve un valor (texto, número, booleano…) en una caja reactiva. En `<script setup>` lees y escribes el interior con `miRef.value`; en el `<template>` usas solo el nombre (`{{ miRef }}`) porque Vue desenvuelve solo.',
     path: 'reactividad',
   },
   {

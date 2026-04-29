@@ -80,6 +80,15 @@ function focusMain(e) {
             <span class="ico">🧰</span>
             Guía paso a paso
           </RouterLink>
+          <RouterLink
+            class="nav-item accent-link"
+            to="/sesion"
+            :class="{ active: $route.name === 'learning-session' }"
+            @click="closeMenu"
+          >
+            <span class="ico">🎯</span>
+            Camino guiado
+          </RouterLink>
         </nav>
 
         <p class="side-section-label">Lecciones con demos</p>

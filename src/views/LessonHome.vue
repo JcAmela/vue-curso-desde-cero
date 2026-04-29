@@ -8,7 +8,7 @@ import { glossary } from '../data/glossary'
   <div class="lesson-page">
     <header class="home-hero">
       <p class="badge">Curso en el navegador · base: HTML, CSS y un poco de JavaScript</p>
-      <h1>Vue desde cero, con tres caminos de estudio</h1>
+      <h1>Vue desde cero: varios caminos de estudio</h1>
       <p class="lead">
         Si sabes montar una página con <strong>HTML</strong>, darle estilo con <strong>CSS</strong> y escribir algo de
         <strong>JavaScript</strong> (variables, funciones, <code class="inline">querySelector</code> y
@@ -18,8 +18,9 @@ import { glossary } from '../data/glossary'
       <p>
         <strong>Cómo está organizado (aprendizaje por capas):</strong> primero puedes leer la
         <RouterLink to="/teoria">teoría tipo manual</RouterLink>; en paralelo o después, la
-        <RouterLink to="/guia">guía con consola</RouterLink> te hace practicar cada idea con feedback inmediato; las
-        <strong>lecciones con demos</strong> sirven de referencia por tema cuando necesites una explicación más pausada
+        <RouterLink to="/guia">guía con consola</RouterLink> te hace practicar cada idea con feedback inmediato; el
+        <RouterLink to="/sesion">camino guiado</RouterLink> ordena lecturas breves, tests y práctica en una sola secuencia;
+        las <strong>lecciones con demos</strong> sirven de referencia por tema cuando necesites una explicación más pausada
         o un ejemplo visual. Marca las lecciones como leídas cuando termines: el progreso se guarda en
         <code class="inline">localStorage</code> en este navegador (si borras datos del sitio, se pierde la marca).
       </p>
@@ -57,6 +58,17 @@ import { glossary } from '../data/glossary'
             Ejercicios con enunciado, pistas y solución de referencia. Combínalos con la guía cuando quieras consolidar.
           </p>
           <span class="pillar-cta">Ir a práctica →</span>
+        </RouterLink>
+      </li>
+      <li>
+        <RouterLink class="pillar-card pillar-accent" to="/sesion">
+          <span class="pillar-ico" aria-hidden="true">🎯</span>
+          <h3>Camino guiado</h3>
+          <p>
+            Una sola secuencia: lectura corta, test rápido y práctica, con barra de progreso y XP. Ideal si quieres un
+            ritmo tipo «un paso detrás de otro».
+          </p>
+          <span class="pillar-cta">Abrir camino guiado →</span>
         </RouterLink>
       </li>
     </ul>

@@ -1,0 +1,12 @@
+{
+  "title": "Antes de los ejercicios: cómo usar esta sesión",
+  "paragraphs": [
+    "Esta ruta es un «camino guiado» en una sola secuencia: primero lecturas muy cortas y tests rápidos, luego práctica con el mismo formato que la página de ejercicios (objetivo, criterios, pistas y solución).",
+    "Lo ideal es bloques de pocos minutos, feedback inmediato en los tests y código en tu editor para la parte práctica. Marca cada paso cuando lo hayas trabajado en serio; el progreso se guarda solo en este navegador.",
+    "Si algo no encaja, puedes abrir la lección relacionada desde la tarjeta de práctica o volver al índice de teoría y guía cuando lo necesites."
+  ],
+  "asideLink": {
+    "path": "/practica",
+    "label": "Ver todos los ejercicios como lista"
+  }
+}

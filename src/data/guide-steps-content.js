@@ -3,38 +3,79 @@
  */
 export const guideStepBodies = {
   "g01": {
+    "lessonStages": [
+      {
+        "label": "Idea",
+        "text": "`ref` es la función que crea la «caja»: metes un texto inicial y Vue vigila ese dato para actualizar la vista cuando cambie."
+      },
+      {
+        "label": "Patrón",
+        "text": "En el script: `import` + `const nombre = ref('…')`. En el HTML del template: `{{ nombre }}` con el mismo identificador."
+      },
+      {
+        "label": "Regla",
+        "text": "En plantilla no va `.value` (eso es para el script cuando leas o escribas el interior de la caja; lo verás en el paso 2)."
+      }
+    ],
+    "lessonTips": [
+      "Un cambio pequeño cada vez: primero solo el texto entre comillas, guarda y mira; luego prueba otra frase.",
+      "Ctrl+S en el editor del REPL es tu «enviar respuesta»: sin guardar, la vista previa puede no enterarse.",
+      "Si algo falla, mira si el nombre en `{{ … }}` coincide exactamente con el del `const … = ref`.",
+      "Equivocarse en el reto de abajo es normal: la explicación después del intento es parte del aprendizaje."
+    ],
     "objectives": [
-      "Ver qué es un `ref` y cómo se muestra con `{{ }}` en la plantilla",
-      "Comprobar que al guardar el fichero la vista previa refleja el cambio"
+      "Explicar con tus palabras qué hace `ref('…')`: una caja reactiva con ese texto dentro",
+      "Localizar en el fichero el `import`, la línea `const … = ref(…)` y el `<template>` con `{{ }}`",
+      "Unir el nombre del script (`titulo`) con `{{ titulo }}` en el HTML",
+      "Editar el string, guardar con Ctrl+S y ver el título nuevo en la vista previa sin tocar el DOM a mano"
     ],
     "checklist": [
-      "He cambiado el texto inicial dentro de `ref('…')` y lo he visto en el título",
-      "He añadido un segundo párrafo que use la misma variable"
+      "Sé qué es la «caja» de `ref` frente al texto que se muestra en pantalla",
+      "He cambiado el texto dentro de `ref('…')` y el encabezado de la vista previa lo refleja",
+      "He repetido `{{ titulo }}` en un segundo sitio del template para ver que un solo ref alimenta varias líneas",
+      "Me acuerdo: en plantilla no llevo `.value`; eso lo usaré en el script en el siguiente paso"
     ],
+    "practiceHeading": "Tu turno · editor en vivo",
+    "checklistHeading": "¿Lo llevas?",
+    "hintsSummary": "¿Atascado? Abre las pistas: son píldoras cortas, como los tips de ayuda en una app de idiomas.",
+    "recapHeading": "Repaso de 20 segundos",
+    "recapBullets": [
+      "`ref` + texto inicial = dato reactivo en un `.vue` con `<script setup>`.",
+      "`{{ nombre }}` en el template muestra lo que hay dentro de la caja; mismo `nombre` que en el `const`.",
+      "`.value` lo dejamos para cuando cambies el dato desde el script (paso siguiente)."
+    ],
+    "quizSectionTitle": "Reto rápido (una pregunta)",
+    "quizPreamble": "Elige la opción que mejor encaje. Si no aciertas a la primera, lee la explicación y pulsa «Volver a intentar»: aquí no hay vidas que perder, solo práctica.",
+    "doneEncouragement": "¡Bien hecho cuando termines! Marca la casilla: así la guía recuerda tu progreso en este navegador (como completar una lección).",
+    "replHint": "En este primer taller el editor está a la izquierda y la vista previa a la derecha. Tras cambiar el texto dentro de ref('…'), guarda con Ctrl+S. Si la previsualización no reacciona, busca un icono de recargar o actualizar en la barra del playground. No hace falta instalar nada extra: todo va en el navegador.",
     "files": {
-      "App.vue": "<script setup>\nimport { ref } from 'vue'\n\nconst titulo = ref('Hola, mundo Vue')\n</script>\n\n<template>\n  <h1>{{ titulo }}</h1>\n  <p>Modifica el texto dentro de ref('…') y pulsa Ctrl+S en el editor para actualizar la vista previa.</p>\n</template>"
+      "App.vue": "<script setup>\n// ref() viene de Vue: crea una «caja» reactiva. El valor inicial va entre paréntesis.\nimport { ref } from 'vue'\n\nconst titulo = ref('Hola, mundo Vue')\n\n// En el <script> el dato «de verdad» sería titulo.value —pero en el <template> no hace falta el .value.\n</script>\n\n<template>\n  <!-- {{ }} inserta el contenido del ref como texto -->\n  <h1>{{ titulo }}</h1>\n  <p>\n    Modifica el string en el script (entre comillas de ref('…')), guarda con Ctrl+S y observa este bloque y el título.\n  </p>\n</template>"
     },
     "quiz": {
-      "question": "En `<script setup>`, ¿cómo incrementas un número entero guardado en un ref llamado `c`?",
+      "question": "Tienes en el script `const mensaje = ref('Hola')`. En el `<template>`, ¿cómo muestras ese texto dentro de un `<p>`?",
       "options": [
         {
-          "text": "c++",
-          "correct": false
-        },
-        {
-          "text": "c.value++",
+          "text": "<p>{{ mensaje }}</p>",
           "correct": true
         },
         {
-          "text": "{{ c++ }} en el template",
+          "text": "<p>{{ mensaje.value }}</p>",
+          "correct": false
+        },
+        {
+          "text": "<p>{ mensaje }</p>",
           "correct": false
         }
       ],
-      "explain": "En el `<script>` hace falta `.value` porque ahí `c` es el «envoltorio» ref. En el `<template>` Vue lo quita por ti."
+      "explain": "En la plantilla Vue desenvuelve el ref: usas el mismo nombre que en el script, entre dobles llaves. `.value` es para el `<script setup>` cuando lees o asignas; las llaves simples `{ }` no son la sintaxis de Vue para interpolar."
     },
     "hints": [
-      "Si la vista previa no cambia, usa el botón de recargar del REPL.",
-      "Arriba del todo: `import { ref } from 'vue'`."
+      "¿No cambia la vista previa? Guarda otra vez (Ctrl+S) y, si sigue igual, recarga el panel del REPL.",
+      "El `import { ref } from 'vue'` debe vivir en el bloque `<script setup>`, antes de usar `ref`.",
+      "Si renombras `titulo` a `mensaje`, cambia también cada `{{ titulo }}` por `{{ mensaje }}` o verás error de variable no definida.",
+      "Las comillas del string deben cerrarse bien: `ref('Texto')` o `ref(\"Texto\")`; no mezcles una sin cerrar la otra.",
+      "Un truco de lectura: busca en el template todas las `{{ … }}` y comprueba que cada nombre existe como `const … = ref` arriba.",
+      "Si aparece mensaje de error en rojo en el playground, léelo con calma: suele indicar la línea (falta una etiqueta, un paréntesis, etc.)."
     ]
   },
   "g02": {

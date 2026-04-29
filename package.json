@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/validate-course-data.mjs && vite build",
+    "build": "node scripts/build-course.mjs && node scripts/validate-course-data.mjs && vite build",
     "preview": "vite preview",
-    "validate": "node scripts/validate-course-data.mjs"
+    "validate": "node scripts/build-course.mjs && node scripts/validate-course-data.mjs"
   },
   "dependencies": {
     "@vue/compiler-sfc": "^3.5.33",

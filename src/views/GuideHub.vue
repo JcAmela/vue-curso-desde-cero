@@ -22,8 +22,9 @@ function chapterPracticeLabel(theoryId) {
 
 function stepPreview(intro) {
   const max = 96
-  if (intro.length <= max) return intro
-  return intro.slice(0, max).trimEnd() + '…'
+  const oneLine = intro.replace(/\s+/g, ' ').trim()
+  if (oneLine.length <= max) return oneLine
+  return oneLine.slice(0, max).trimEnd() + '…'
 }
 </script>
 

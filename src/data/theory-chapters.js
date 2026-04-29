@@ -30,9 +30,17 @@ export const theoryChapters = [
     title: '2. Reactividad con ref',
     sections: [
       {
+        subtitle: 'Qué es `ref` y qué quiere decir «reactivo»',
+        paragraphs: [
+          '`ref` es una función que importas de `vue` (`import { ref } from \'vue\'`). Le pasas un valor inicial —un texto, un número, un booleano, más adelante un objeto o un array— y te devuelve un envoltorio: no es «solo» el valor en bruto, sino una caja que Vue sabe observar.',
+          'Decir que algo es reactivo es eso: el dato y lo que ves en pantalla van ligados. Cuando cambias el contenido de la caja por código, Vue vuelve a dibujar las partes del HTML que dependían de ese dato. Sin un framework, con JavaScript clásico tendrías que buscar tú cada elemento del DOM (por ejemplo con `querySelector`) y actualizar texto o clases cada vez.',
+          'El nombre de la constante es tuyo: `const titulo = ref(\'Hola\')` y `const mensaje = ref(\'Hola\')` hacen lo mismo si luego usas el mismo nombre en la plantilla. Lo importante es reconocer el patrón: `ref(valor inicial)` + uso en el template con `{{ nombre }}`.',
+        ],
+      },
+      {
         subtitle: 'Regla de oro: .value en el script, sin .value en el template',
         paragraphs: [
-          '`ref()` envuelve un valor (número, texto, booleano…). Dentro de `<script setup>` siempre lees y escribes con `miVariable.value`. En el `<template>` Vue lo «developa» solo: escribes `{{ miVariable }}` o `v-if="miVariable"` sin `.value`.',
+          'Dentro de `<script setup>` el ref sigue siendo la caja: para leer o asignar el valor que hay dentro usas siempre `miVariable.value`. En el `<template>` Vue la abre por ti: escribes `{{ miVariable }}`, `v-if="miVariable"`, `:disabled="miVariable"`, etc., sin `.value`.',
           'El despiste más frecuente al empezar es olvidar el `.value` en el script: entonces parece que el dato no cambia o la consola del navegador avisa de algo raro. Cuando lo tengas claro aquí, el resto del curso va más fluido.',
         ],
       },

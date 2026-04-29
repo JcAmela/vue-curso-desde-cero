@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useExerciseProgress } from '../../composables/useExerciseProgress'
+import { useCourseStepProgress } from '../../composables/useCourseStepProgress'
 
 const props = defineProps({
   exercise: {
@@ -11,15 +12,39 @@ const props = defineProps({
   index: { type: Number, required: true },
   /** Siguiente ejercicio del programa (mismo orden que en `exercises.js`). */
   nextExercise: { type: Object, default: null },
+  /** Siguiente paso del camino guiado (sustituye el enlace interno a /practica#…). */
+  nextStepTo: { type: [Object, String], default: null },
+  /** `practica-hash`: /practica#id · `session-path`: /sesion/id */
+  copyLinkMode: { type: String, default: 'practica-hash' },
+  /** `exercise`: progreso en /practica · `course`: progreso en /sesion */
+  progressScope: { type: String, default: 'exercise' },
 })
 
-const { toggleExercise, isExerciseDone } = useExerciseProgress()
+const exerciseProgress = useExerciseProgress()
+const courseProgress = useCourseStepProgress()
 
 const copyFeedback = ref('')
+
+function toggleDone(id) {
+  if (props.progressScope === 'course') {
+    courseProgress.toggleStep(id)
+  } else {
+    exerciseProgress.toggleExercise(id)
+  }
+}
+
+function isDone(id) {
+  return props.progressScope === 'course'
+    ? courseProgress.isStepDone(id)
+    : exerciseProgress.isExerciseDone(id)
+}
 
 function anchorUrl() {
   const base = import.meta.env.BASE_URL || '/'
   const normalized = base.endsWith('/') ? base : `${base}/`
+  if (props.copyLinkMode === 'session-path') {
+    return `${window.location.origin}${normalized}sesion/${props.exercise.id}`
+  }
   return `${window.location.origin}${normalized}practica#${props.exercise.id}`
 }
 
@@ -95,8 +120,9 @@ async function copyExerciseLink() {
       <button type="button" class="copy-link" @click="copyExerciseLink">
         {{ copyFeedback || 'Copiar enlace a este ejercicio' }}
       </button>
+      <RouterLink v-if="nextStepTo" class="next-ex" :to="nextStepTo">Siguiente paso →</RouterLink>
       <RouterLink
-        v-if="nextExercise"
+        v-else-if="nextExercise"
         class="next-ex"
         :to="{ path: '/practica', hash: '#' + nextExercise.id }"
       >
@@ -105,7 +131,7 @@ async function copyExerciseLink() {
     </div>
 
     <label class="done-label">
-      <input type="checkbox" :checked="isExerciseDone(exercise.id)" @change="toggleExercise(exercise.id)" />
+      <input type="checkbox" :checked="isDone(exercise.id)" @change="toggleDone(exercise.id)" />
       Lo he intentado en mi proyecto (solo para tu seguimiento; se guarda en este navegador)
     </label>
   </article>

@@ -14,6 +14,7 @@ const bodyMod = await import(pathToFileURL(join(root, 'src/data/guide-steps-cont
 const bridgeMod = await import(pathToFileURL(join(root, 'src/data/theory-guide-bridge.js')).href)
 const glossaryMod = await import(pathToFileURL(join(root, 'src/data/glossary.js')).href)
 const curriculumMod = await import(pathToFileURL(join(root, 'src/data/curriculum.js')).href)
+const courseIndexMod = await import(pathToFileURL(join(root, 'src/data/course-index.js')).href)
 
 const { theoryChapters } = theoryMod
 const { guideStepsMeta } = metaMod
@@ -21,6 +22,7 @@ const { guideStepBodies } = bodyMod
 const { THEORY_CHAPTER_PRACTICE_FALLBACK } = bridgeMod
 const { glossary } = glossaryMod
 const { lessons } = curriculumMod
+const { courseSteps } = courseIndexMod
 
 const errors = []
 
@@ -98,6 +100,38 @@ for (let i = 0; i < glossary.length; i++) {
   }
 }
 
+const lessonPathSet = new Set(lessons.map((l) => l.path))
+const courseIdSet = new Set()
+if (!Array.isArray(courseSteps)) {
+  errors.push('course-index: courseSteps no es un array')
+} else {
+  for (let i = 0; i < courseSteps.length; i++) {
+    const cs = courseSteps[i]
+    if (!cs || typeof cs.id !== 'string' || !cs.id.trim()) {
+      errors.push(`Camino guiado [${i}]: falta id`)
+      continue
+    }
+    if (courseIdSet.has(cs.id)) {
+      errors.push(`Camino guiado: id duplicado "${cs.id}"`)
+    }
+    courseIdSet.add(cs.id)
+    if (!['micro_read', 'mcq', 'practice'].includes(cs.type)) {
+      errors.push(`Camino guiado ${cs.id}: type desconocido`)
+    }
+    if (typeof cs.order !== 'number' || !Number.isFinite(cs.order)) {
+      errors.push(`Camino guiado ${cs.id}: order debe ser número`)
+    }
+    if (typeof cs.unitId !== 'string' || !lessonPathSet.has(cs.unitId)) {
+      errors.push(`Camino guiado ${cs.id}: unitId no está en curriculum.js`)
+    }
+    if (cs.type === 'practice') {
+      if (typeof cs.lessonPath !== 'string' || !lessonPathSet.has(cs.lessonPath)) {
+        errors.push(`Camino guiado ${cs.id}: lessonPath no está en curriculum.js`)
+      }
+    }
+  }
+}
+
 if (errors.length) {
   console.error('\n[validate-course-data] Errores:\n')
   for (const e of errors) console.error(' ·', e)
@@ -105,4 +139,4 @@ if (errors.length) {
   process.exit(1)
 }
 
-console.log('[validate-course-data] OK — teoría, guía, fallback, glosario y rutas coherentes.')
+console.log('[validate-course-data] OK — teoría, guía, glosario, currículo y camino guiado coherentes.')

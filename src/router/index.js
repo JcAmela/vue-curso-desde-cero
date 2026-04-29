@@ -17,6 +17,7 @@ import LessonPinia from '../views/lessons/LessonPinia.vue'
 import LessonPractice from '../views/lessons/LessonPractice.vue'
 import GuideHub from '../views/GuideHub.vue'
 import { getGuideStepMetaById } from '../data/guide-steps-meta.js'
+import { courseSteps } from '../data/course-index.js'
 
 const children = [
   { path: '', name: 'home', component: LessonHome, meta: { title: 'Inicio' } },
@@ -68,6 +69,12 @@ const children = [
     meta: { title: 'Ejercicios prácticos' },
   },
   {
+    path: 'sesion/:stepId?',
+    name: 'learning-session',
+    component: () => import('../views/LearningSessionView.vue'),
+    meta: { title: 'Camino guiado' },
+  },
+  {
     path: ':pathMatch(.*)*',
     name: 'not-found',
     component: () => import('../views/NotFound.vue'),
@@ -91,11 +98,24 @@ const router = createRouter({
   },
 })
 
+function learningSessionStepTitle(stepId) {
+  const id = typeof stepId === 'string' ? stepId : ''
+  const s = courseSteps.find((x) => x.id === id)
+  if (!s) return 'Camino guiado'
+  if (s.title) return s.title
+  if (s.type === 'mcq') return 'Test rápido'
+  return s.id
+}
+
 router.afterEach((to) => {
   const base = 'Vue desde cero'
   if (to.name === 'guide-step') {
     const s = getGuideStepMetaById(to.params.stepId)
     document.title = s ? `${s.title} · Guía · ${base}` : `Guía · ${base}`
+    return
+  }
+  if (to.name === 'learning-session') {
+    document.title = `${learningSessionStepTitle(to.params.stepId)} · Camino · ${base}`
     return
   }
   document.title = to.meta?.title ? `${to.meta.title} · ${base}` : base

@@ -34,6 +34,21 @@ const relatedGuideSteps = computed(() => {
   if (!tid) return []
   return getGuideStepsForTheoryChapter(tid).filter((s) => s.id !== step.value?.id)
 })
+
+/** Introducción en uno o varios párrafos (separar con línea en blanco en el dato). */
+const introParagraphs = computed(() => {
+  const raw = step.value?.intro
+  if (!raw || typeof raw !== 'string') return []
+  return raw
+    .split(/\n\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+})
+
+/** Progreso aproximado en la guía (estilo «unidad de un curso»). */
+const guideProgressPercent = computed(() =>
+  step.value?.n ? Math.round((step.value.n / guideStepsMeta.length) * 100) : 0
+)
 </script>
 
 <template>
@@ -54,15 +69,47 @@ const relatedGuideSteps = computed(() => {
         <RouterLink to="/guia">Guía</RouterLink>
         · Paso {{ step.n }} de {{ guideStepsMeta.length }}
       </p>
+      <p v-if="step.lessonHook" class="duo-hook">{{ step.lessonHook }}</p>
       <h1>{{ step.title }}</h1>
-      <p class="lead">{{ step.intro }}</p>
+      <div
+        class="guide-units-bar"
+        role="progressbar"
+        :aria-valuenow="step.n"
+        :aria-valuemin="1"
+        :aria-valuemax="guideStepsMeta.length"
+        :aria-label="'Progreso en la guía: paso ' + step.n + ' de ' + guideStepsMeta.length"
+      >
+        <span class="guide-units-fill" :style="{ width: guideProgressPercent + '%' }" />
+      </div>
+      <p class="guide-units-caption">{{ guideProgressPercent }} % de la guía · sigue con calma, cada paso cuenta</p>
+
+      <div class="intro-wrap">
+        <p v-for="(paragraph, i) in introParagraphs" :key="i" class="lead" :class="{ 'lead-continued': i > 0 }">
+          {{ paragraph }}
+        </p>
+      </div>
+      <p v-if="next" class="next-tease">
+        Después viene:
+        <RouterLink :to="'/guia/paso/' + next.id">{{ next.title }}</RouterLink>
+      </p>
       <p class="theory-link">
         <RouterLink :to="'/teoria#' + step.theoryId">Leer capítulo: {{ theoryTitle }}</RouterLink>
+        <span class="theory-hint"> (opcional, para leer con más calma el «por qué»)</span>
       </p>
     </header>
 
+    <section v-if="step.lessonStages?.length" class="panel duo-stages" aria-labelledby="stages-h">
+      <h2 id="stages-h">En tres ideas</h2>
+      <ol class="stages-list">
+        <li v-for="(st, i) in step.lessonStages" :key="i" class="stage-card">
+          <span class="stage-label" :aria-label="'Punto ' + (i + 1)">{{ st.label }}</span>
+          <p class="stage-text">{{ st.text }}</p>
+        </li>
+      </ol>
+    </section>
+
     <section class="panel">
-      <h2>Objetivos</h2>
+      <h2>{{ step.objectivesHeading || 'Objetivos' }}</h2>
       <ul>
         <li v-for="(o, i) in step.objectives" :key="i">{{ o }}</li>
       </ul>
@@ -81,9 +128,18 @@ const relatedGuideSteps = computed(() => {
       </ul>
     </section>
 
+    <section v-if="step.lessonTips?.length" class="panel duo-tips" aria-labelledby="tips-h">
+      <h2 id="tips-h">Antes de tocar el código</h2>
+      <p class="tips-lead">Consejos cortos (léelos en 30 segundos):</p>
+      <ul class="tips-ul">
+        <li v-for="(t, i) in step.lessonTips" :key="i">{{ t }}</li>
+      </ul>
+    </section>
+
     <section class="panel repl-panel">
-      <h2>Consola Vue (edita y mira la vista previa)</h2>
-      <p class="hint">
+      <h2>{{ step.practiceHeading || 'Consola Vue (edita y mira la vista previa)' }}</h2>
+      <p v-if="step.replHint" class="hint">{{ step.replHint }}</p>
+      <p v-else class="hint">
         Editor a la izquierda, vista previa a la derecha. Tras editar, guarda con <kbd>Ctrl</kbd>+<kbd>S</kbd> en el
         editor del REPL; si no refresca, usa el botón de recargar de herramientas del playground.
       </p>
@@ -91,20 +147,32 @@ const relatedGuideSteps = computed(() => {
     </section>
 
     <section class="panel">
-      <h2>Checklist (tú en tu editor)</h2>
+      <h2>{{ step.checklistHeading || 'Checklist (tú en tu editor)' }}</h2>
       <ul class="check">
         <li v-for="(c, i) in step.checklist" :key="i">{{ c }}</li>
       </ul>
       <details class="hints">
-        <summary>Pistas extra</summary>
+        <summary>{{ step.hintsSummary || 'Pistas extra' }}</summary>
         <ul>
           <li v-for="(h, i) in step.hints" :key="i">{{ h }}</li>
         </ul>
       </details>
     </section>
 
-    <QuizBlock :quiz="step.quiz" />
+    <section v-if="step.recapBullets?.length" class="panel duo-recap" aria-labelledby="recap-h">
+      <h2 id="recap-h">{{ step.recapHeading || 'Repaso rápido' }}</h2>
+      <ul class="recap-ul">
+        <li v-for="(r, i) in step.recapBullets" :key="i">{{ r }}</li>
+      </ul>
+    </section>
 
+    <section v-if="step.quiz" class="panel panel-quiz" aria-labelledby="quiz-h">
+      <h2 id="quiz-h">{{ step.quizSectionTitle || 'Pregunta' }}</h2>
+      <p v-if="step.quizPreamble" class="quiz-preamble">{{ step.quizPreamble }}</p>
+      <QuizBlock :quiz="step.quiz" />
+    </section>
+
+    <p v-if="step.doneEncouragement" class="done-encourage">{{ step.doneEncouragement }}</p>
     <label class="done-row">
       <input type="checkbox" :checked="isStepDone(step.id)" @change="toggleStepDone(step.id)" />
       Marcar paso como completado en esta guía (se guarda en el navegador)
@@ -153,6 +221,14 @@ const relatedGuideSteps = computed(() => {
 
 .gs-head {
   margin-bottom: 1rem;
+}
+
+.intro-wrap .lead {
+  margin: 0 0 0.85rem !important;
+}
+
+.intro-wrap .lead-continued {
+  margin-top: -0.15rem !important;
 }
 
 .crumb {
