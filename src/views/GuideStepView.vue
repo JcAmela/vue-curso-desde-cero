@@ -10,6 +10,8 @@ import QuizBlock from '../components/learning/QuizBlock.vue'
 import { useGuideStepProgress } from '../composables/useGuideStepProgress'
 const { isStepDone, toggleStepDone } = useGuideStepProgress()
 
+const route = useRoute()
+
 const step = computed(() => getGuideStepById(route.params.stepId))
 
 const theoryTitle = computed(() => {
