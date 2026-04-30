@@ -77,10 +77,16 @@ function onKey(e) {
   }
 }
 
+const LAB_SCROLL_LOCK = 'lab-scroll-lock'
+
 onMounted(() => {
+  document.documentElement.classList.add(LAB_SCROLL_LOCK)
+  document.body.classList.add(LAB_SCROLL_LOCK)
   window.addEventListener('keydown', onKey)
 })
 onBeforeUnmount(() => {
+  document.documentElement.classList.remove(LAB_SCROLL_LOCK)
+  document.body.classList.remove(LAB_SCROLL_LOCK)
   window.removeEventListener('keydown', onKey)
 })
 
@@ -138,9 +144,11 @@ const initialFiles = computed(() => progress.loadCode(currentN.value))
 
 <style scoped>
 .lab {
-  min-height: 100vh;
+  height: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   background: var(--bg);
   color: var(--text);
 }
@@ -168,9 +176,10 @@ const initialFiles = computed(() => progress.loadCode(currentN.value))
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.45rem 1rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
+  padding: 0.35rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--dim);
 }
@@ -181,88 +190,104 @@ const initialFiles = computed(() => progress.loadCode(currentN.value))
 
 .lab-exit {
   color: var(--dim);
-  font-size: 0.78rem;
+  font-size: inherit;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
 }
 .lab-exit:hover {
-  color: var(--muted);
+  color: var(--text);
 }
 
 .lab-copy {
-  flex-shrink: 0;
-  padding: 0.75rem 1.25rem 0;
+  flex-shrink: 1;
+  min-height: 0;
+  padding: 0.45rem 1.25rem 0;
   max-width: 56rem;
   margin: 0 auto;
   width: 100%;
   text-align: center;
+  overflow: hidden;
+  text-wrap: pretty;
 }
 
 .lab-title {
   margin: 0;
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #fafafa;
+  font-size: clamp(1.05rem, 2.2vw, 1.28rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: var(--text);
 }
 
 .lab-concept {
-  margin: 0.35rem 0 0;
-  font-size: 0.8rem;
-  color: var(--dim);
-  line-height: 1.45;
+  margin: 0.4rem 0 0;
+  font-size: clamp(0.875rem, 1.75vw, 0.97rem);
+  color: #b8b8c2;
+  line-height: 1.62;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .lab-task {
-  margin: 0.5rem 0 0;
-  font-size: 0.88rem;
-  color: var(--muted);
-  line-height: 1.5;
+  margin: 0.55rem 0 0;
+  font-size: clamp(0.9rem, 1.85vw, 1.03rem);
+  color: #e8e8ed;
+  font-weight: 500;
+  line-height: 1.65;
   max-width: 42rem;
   margin-left: auto;
   margin-right: auto;
 }
 
 .lab-hint {
-  margin-top: 0.65rem;
+  margin-top: 0.55rem;
   text-align: left;
 }
 .lab-hint summary {
   cursor: pointer;
   list-style: none;
-  font-size: 0.78rem;
-  color: var(--dim);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #93c5fd;
   user-select: none;
   text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+.lab-hint summary:hover {
+  color: #bfdbfe;
 }
 .lab-hint summary::-webkit-details-marker {
   display: none;
 }
 .lab-hint p {
-  margin: 0.4rem auto 0;
-  padding: 0.5rem 0.65rem;
+  margin: 0.45rem auto 0;
+  padding: 0.6rem 0.75rem;
   max-width: 36rem;
-  font-size: 0.82rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   background: var(--surface);
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  color: var(--muted);
+  color: #d4d4d8;
 }
 
 .lab-stage {
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   min-height: 0;
-  padding: 0.75rem 1rem 0.25rem;
+  padding: 0.35rem 1rem 0.2rem;
   width: 100%;
 }
 
 .lab-foot {
   flex-shrink: 0;
-  padding: 0.5rem 1rem 1rem;
+  padding: 0.35rem 1rem 0.75rem;
 }
 
 .lab-actions {
@@ -274,10 +299,12 @@ const initialFiles = computed(() => progress.loadCode(currentN.value))
 }
 
 .lab-status {
-  margin: 0.45rem 0 0;
+  margin: 0.4rem 0 0;
   text-align: center;
-  font-size: 0.74rem;
-  color: var(--dim);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #a1a1aa;
   min-height: 1.15em;
 }
 .lab-status[data-state='pass'] {
@@ -291,9 +318,10 @@ button {
   border-radius: 6px;
   border: 1px solid var(--border);
   background: transparent;
-  color: var(--muted);
+  color: #d4d4d8;
   cursor: pointer;
-  font-size: 0.82rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   transition:
     background 0.15s,
     border-color 0.15s;

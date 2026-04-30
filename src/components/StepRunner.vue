@@ -166,6 +166,7 @@ onBeforeUnmount(() => {
   width: 100%;
   max-width: 1080px;
   margin: 0 auto;
+  min-height: 0;
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
@@ -176,8 +177,9 @@ onBeforeUnmount(() => {
 }
 
 .repl-host--centered {
-  height: min(72vh, 720px);
-  max-height: calc(100vh - 240px);
+  height: 100%;
+  max-height: 100%;
+  align-self: stretch;
 }
 
 .repl-inner {

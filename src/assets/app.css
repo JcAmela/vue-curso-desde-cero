@@ -5,8 +5,9 @@
   --surface-up: #1a1a1f;
   --border: rgba(255, 255, 255, 0.08);
   --text: #f4f4f5;
-  --muted: #a1a1aa;
-  --dim: #71717a;
+  /* Lectura en bloques largos: un poco más claros que antes */
+  --muted: #c4c4cc;
+  --dim: #909098;
   --accent: #22c55e;
   --accent-dark: #16a34a;
   --terminal-bg: #0d0d0f;
@@ -21,6 +22,13 @@ body,
 #app {
   margin: 0;
   padding: 0;
+  height: 100%;
+}
+
+/* Solo en pasos del taller: evita scroll del documento (doble barra / rebote) */
+html.lab-scroll-lock,
+body.lab-scroll-lock {
+  overflow: hidden;
   height: 100%;
 }
 
